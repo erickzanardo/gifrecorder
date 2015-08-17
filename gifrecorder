@@ -1,0 +1,34 @@
+#!/bin/bash
+
+ARG=$1
+
+if [ "$ARG" = "--help" ]
+then
+  echo "gifrecorder [record|stop]"
+fi
+
+if [ "$ARG" = "record" ]
+then
+  if [ ! -d "/tmp/gifrecorder" ]
+  then
+    mkdir /tmp/gifrecorder
+  fi
+  touch /tmp/gifrecorder/.recording
+
+  while [ -f /tmp/gifrecorder/.recording ]
+  do
+    scrot "scrot_$(date +"%H_%M_%S_%N").png" -e 'mv $f /tmp/gifrecorder/'
+    sleep 0.2
+  done
+fi
+
+if [ "$ARG" = "stop" ]
+then
+  rm /tmp/gifrecorder/.recording
+  notify-send -u critical "GifRecorder" "Record Ended, encoding frames"
+  convert -delay 20 -loop 0 /tmp/gifrecorder/*.png /tmp/gifrecorder/animation.gif
+  rm /tmp/gifrecorder/*.png
+  mv /tmp/gifrecorder/animation.gif ~/animation.gif
+  notify-send -u critical "GifRecorder" "Frames encoded, gif saved on ~/animation.gif"
+fi
+
