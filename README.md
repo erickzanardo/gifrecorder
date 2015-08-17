@@ -1,5 +1,7 @@
 # GifRecorder
-Bash script to record your screen in a gif
+Bash script to record your screen in a gif on Ubuntu
+
+![Animation](http://erickzanardo.github.io/gifrecorder/animation.gif)
 
 ## Usage
 
