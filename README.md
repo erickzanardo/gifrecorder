@@ -17,7 +17,7 @@ Stops de recording
 gifrecorder stop
 ```
 
-Your gif in be saved on your home, under the name of animation.gif
+Your gif will be saved on your home, under the name of animation.gif
 
 ## Depdencies
 
