@@ -9,10 +9,7 @@ fi
 
 if [ "$ARG" = "record" ]
 then
-  if [ ! -d "/tmp/gifrecorder" ]
-  then
-    mkdir /tmp/gifrecorder
-  fi
+  mkdir -p /tmp/gifrecorder
   touch /tmp/gifrecorder/.recording
 
   while [ -f /tmp/gifrecorder/.recording ]
