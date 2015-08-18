@@ -1,31 +1,33 @@
 #!/bin/bash
 
-ARG=$1
+help() { echo "gifrecorder [record|stop]"; }
 
-if [ "$ARG" = "--help" ]
-then
-  echo "gifrecorder [record|stop]"
-fi
+case "$1" in
+  record)
+    mkdir -p /tmp/gifrecorder
+    touch /tmp/gifrecorder/.recording
 
-if [ "$ARG" = "record" ]
-then
-  mkdir -p /tmp/gifrecorder
-  touch /tmp/gifrecorder/.recording
+    while [ -f /tmp/gifrecorder/.recording ]; do
+      scrot "scrot_$(date +"%H_%M_%S_%N").png" -e "mv $f /tmp/gifrecorder/"
+      sleep 0.2
+    done
+    ;;
 
-  while [ -f /tmp/gifrecorder/.recording ]
-  do
-    scrot "scrot_$(date +"%H_%M_%S_%N").png" -e 'mv $f /tmp/gifrecorder/'
-    sleep 0.2
-  done
-fi
+  stop)
+    rm /tmp/gifrecorder/.recording
+    notify-send -u critical "GifRecorder" "Record Ended, encoding frames"
+    convert -delay 20 -loop 0 /tmp/gifrecorder/*.png /tmp/gifrecorder/animation.gif
+    rm /tmp/gifrecorder/*.png
+    mv /tmp/gifrecorder/animation.gif ~/animation.gif
+    notify-send -u critical "GifRecorder" "Frames encoded, gif saved on ~/animation.gif"
+    ;;
 
-if [ "$ARG" = "stop" ]
-then
-  rm /tmp/gifrecorder/.recording
-  notify-send -u critical "GifRecorder" "Record Ended, encoding frames"
-  convert -delay 20 -loop 0 /tmp/gifrecorder/*.png /tmp/gifrecorder/animation.gif
-  rm /tmp/gifrecorder/*.png
-  mv /tmp/gifrecorder/animation.gif ~/animation.gif
-  notify-send -u critical "GifRecorder" "Frames encoded, gif saved on ~/animation.gif"
-fi
+  help|--help)
+    help
+    ;;
 
+  *)
+    echo "Invalid argument"
+    help
+    ;;
+esac
