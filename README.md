@@ -23,4 +23,4 @@ Your animation will be saved on your HOME folder, under the name of animation.gi
 
 - scrot
 - imagemagick
-- notify-send
+- notify-send (optional)

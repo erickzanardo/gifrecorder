@@ -2,6 +2,14 @@
 
 help() { echo "gifrecorder [record|stop]"; }
 
+function notify {
+  echo $1
+  if [ -x `which notify-send` ]
+  then
+    notify-send -u critical "GifRecorder" "$1"
+  fi
+}
+
 case "$1" in
   record)
     mkdir -p /tmp/gifrecorder
@@ -15,11 +23,11 @@ case "$1" in
 
   stop)
     rm /tmp/gifrecorder/.recording
-    notify-send -u critical "GifRecorder" "Record Ended, encoding frames"
+    notify "Record Ended, encoding frames"
     convert -delay 20 -loop 0 /tmp/gifrecorder/*.png /tmp/gifrecorder/animation.gif
     rm /tmp/gifrecorder/*.png
     mv /tmp/gifrecorder/animation.gif ~/animation.gif
-    notify-send -u critical "GifRecorder" "Frames encoded, gif saved on ~/animation.gif"
+    notify "Frames encoded, gif saved on ~/animation.gif"
     ;;
 
   help|--help)
