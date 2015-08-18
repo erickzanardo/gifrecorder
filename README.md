@@ -17,9 +17,9 @@ Stops de recording
 gifrecorder stop
 ```
 
-Your gif will be saved on your home, under the name of animation.gif
+Your animation will be saved on your HOME folder, under the name of animation.gif.
 
-## Depdencies
+## Dependencies
 
 - scrot
 - imagemagick
